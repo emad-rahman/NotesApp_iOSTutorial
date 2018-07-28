@@ -17,6 +17,20 @@ class ViewController: UIViewController, UITableViewDataSource {
         // Do any additional setup after loading the view, typically from a nib.
         
         table.dataSource = self
+        self.title = "Notes"
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        
+        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNote))
+        self.navigationItem.rightBarButtonItem = addButton
+        
+        self.navigationItem.leftBarButtonItem = editButtonItem
+    }
+    
+    @objc func addNote() {
+        let name:String = "Item \(mockData.count + 1)"
+        mockData.insert(name, at: 0)
+        let indexPath:IndexPath = IndexPath(row: 0, section: 0)
+        table.insertRows(at: [indexPath], with: .automatic)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -24,14 +38,21 @@ class ViewController: UIViewController, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell:UITableViewCell = UITableViewCell()
+        let cell:UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "cell")!
         cell.textLabel?.text = mockData[indexPath.row]
         return cell
     }
+    
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        table.setEditing(editing, animated: animated)
     }
 
 
