@@ -27,6 +27,9 @@ class ViewController: UIViewController, UITableViewDataSource {
     }
     
     @objc func addNote() {
+        if table.isEditing {
+            return
+        }
         let name:String = "Item \(mockData.count + 1)"
         mockData.insert(name, at: 0)
         let indexPath:IndexPath = IndexPath(row: 0, section: 0)
@@ -43,7 +46,10 @@ class ViewController: UIViewController, UITableViewDataSource {
         return cell
     }
     
-    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        mockData.remove(at: indexPath.row)
+        table.deleteRows(at: [indexPath], with: .fade)
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
