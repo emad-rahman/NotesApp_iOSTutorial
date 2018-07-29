@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDataSource {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var table: UITableView!
     var mockData:[String] = []
     var fileURL:URL!
@@ -18,6 +18,8 @@ class ViewController: UIViewController, UITableViewDataSource {
         // Do any additional setup after loading the view, typically from a nib.
         
         table.dataSource = self
+        table.delegate = self
+        
         self.title = "Notes"
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
@@ -58,6 +60,10 @@ class ViewController: UIViewController, UITableViewDataSource {
         table.deleteRows(at: [indexPath], with: .fade)
         
         save()
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("\(mockData[indexPath.row])")
     }
 
     func save() {
